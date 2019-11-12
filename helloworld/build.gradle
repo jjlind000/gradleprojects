@@ -12,6 +12,10 @@ dependencies {
     testCompile "junit:junit:4.12"
 }
 
+//see https://stackoverflow.com/a/44305986/4026629
+//push changes with 
+//  git push origin master
+
 jar {
     baseName = 'hw-gradle'
     version =  '0.1.0'
