@@ -1,0 +1,29 @@
+apply plugin: 'java'
+//apply plugin: 'eclipse'
+
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+//https://www.mkyong.com/gradle/gradle-create-a-jar-file-with-dependencies/
+//create a single Jar with all dependencies
+//Project dependencies
+//Get dependencies from Maven central repository
+repositories {
+    mavenCentral()
+}
+dependencies {
+	compile 'ch.qos.logback:logback-classic:1.1.2'
+}
+task fatJar(type: Jar) {
+	manifest {
+        attributes ('Implementation-Title': 'Gradle Jar File Example', 
+        	'Implementation-Version': version,
+        	'Main-Class': 'com.mkyong.DateUtils',
+                'Class-Path': configurations.runtimeClasspath.files.collect { "lib/$it.name" }.join(' '))
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+

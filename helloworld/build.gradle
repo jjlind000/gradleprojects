@@ -1,3 +1,11 @@
+
+
+//apply plugin: 'java'
+
+plugins {
+    id 'java'
+}
+
 description ="""
 Example helloworld project for a Gradle build
 
@@ -5,20 +13,22 @@ Project name: ${project.name}
 
 More detailed information here... """
 
-apply plugin: 'java'
-
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.11
-targetCompatibility = 1.11
+//sourceCompatibility = 1.11
+//targetCompatibility = 1.11
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 dependencies {
-    compile "joda-time:joda-time:2.2"
-    testCompile "junit:junit:4.12"
+//    compile "joda-time:joda-time:2.2"
+//    testCompile "junit:junit:4.12"
+    implementation "joda-time:joda-time:2.2"
+    testImplementation "junit:junit:4.12"
 }
 
 //see https://stackoverflow.com/a/44305986/4026629
@@ -26,14 +36,14 @@ dependencies {
 //  git push origin master
 
 jar {
-    baseName = 'hw-gradle'
-    version =  '0.1.0'
+    archiveBaseName = 'hw-gradle'
+    archiveVersion =  '0.1.0'
     manifest {
         attributes(
                 'Main-Class': 'hello.HelloWorld',
-                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+                'Class-Path': configurations.runtimeClasspath.files.collect { "lib/$it.name" }.join(' ')
         )
     }
     
-     from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
+     from(configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }
